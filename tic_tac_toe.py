@@ -12,6 +12,26 @@ def print_board (Matrix):
             sys.stdout.write("[{}]".format(*element))
         print("")
 
+def read_num(question):
+    cycle_bool = True
+    while cycle_bool:
+        try:
+            number =int(input(question))
+        except (ValueError, UnboundLocalError):
+            print("Please give numbers!")
+            continue
+        cycle_bool =False
+    return number
+
+def read_coords():
+    coords = []
+    coords.append(read_num('Add the x coordinate: '))
+    coords.append(read_num('Add the y coordinate: '))
+    return coords
+    
+
+
+
 
 def player_change():
     global player
@@ -26,42 +46,11 @@ def player_change():
 
 def empty_steps (choice):
     global Matrix
-    if choice ==1: 
-        if Matrix[2][0] != " ":
-            print("The location you chose is not empty!!!")
-            return True
-    elif choice ==2:
-        if Matrix[2][1] != " ":
-            print("The location you chose is not empty!!!")
-            return True
-    elif choice ==3:
-        if Matrix[2][2] != " ":
-            print("The location you chose is not empty!!!")
-            return True
-    elif choice ==4:
-        if Matrix[1][0] != " ":
-            print("The location you chose is not empty!!!")
-            return True
-    elif choice ==5:
-        if Matrix[1][1] != " ":
-            print("The location you chose is not empty!!!")
-            return True
-    elif choice ==6:
-        if Matrix[1][2] != " ":
-            print("The location you chose is not empty!!!")
-            return True
-    elif choice ==7:
-        if Matrix[0][0] != " ":
-            print("The location you chose is not empty!!!")
-            return True
-    elif choice ==8:
-        if Matrix[0][1] != " ":
-            print("The location you chose is not empty!!!")
-            return True
-    elif choice ==9:
-        if Matrix[0][2] != " ":
-            print("The location you chose is not empty!!!")
-            return True
+    if Matrix[choice[0]][choice[1]] != " ":
+        print("The location you chose is not empty!!!")
+        return True
+
+
 def empty_stepsAuto (choice):
     global Matrix
     if choice == 1: 
@@ -93,42 +82,8 @@ def empty_stepsAuto (choice):
             return True
 
 def check_step (choice):
-    if choice ==1: 
-        Matrix[2][0] = ch 
-        print_board(Matrix)
-        
-    elif choice ==2:
-        Matrix[2][1] = ch
-        print_board(Matrix)
-
-    elif choice ==3:
-        Matrix[2][2] = ch
-        print_board(Matrix)
-
-    elif choice ==4:
-        Matrix[1][0] = ch
-        print_board(Matrix)
-
-    elif choice ==5:
-        Matrix[1][1] = ch
-        print_board(Matrix)
-
-    elif choice ==6:
-        Matrix[1][2] = ch
-        print_board(Matrix)
-
-    elif choice ==7:
-        Matrix[0][0] = ch
-        print_board(Matrix)
-
-    elif choice ==8:
-        Matrix[0][1] = ch
-        print_board(Matrix)
-
-    elif choice ==9:
-        Matrix[0][2] = ch
-        print_board(Matrix)
-
+    Matrix[choice[0]][choice[1]] = ch
+    print_board(Matrix)
 
 def check_hits(Matrix):
     winner = False
@@ -250,7 +205,7 @@ def game():
     signs = {1, 2, 3, 4, 5, 6, 7, 8, 9}
     player = 1
     ch = 'X'
-    row = 3
+    row = read_num("Please add the size of the table: ")
     Matrix = [[" " for x in range(row)] for y in range(row)]
     print_board(Matrix)
     gameIsOngoing = True
@@ -258,20 +213,19 @@ def game():
         myChar = True
         while myChar:
             try:
-                choice= int(input("Add a number to put your character: "))
+                coords = read_coords()
             except (ValueError, UnboundLocalError):
                 q = input("Use the numerical part of your keypad (1-9) or press q if you want to quit")
                 if q == 'q':
                     sys.exit()
                 else:
                     continue
-            if choice in signs:
-                myChar = False
-                myChar = empty_steps(choice) 
-            else:
-                print("Oops, undetectible character.")
 
-        check_step(choice)
+
+            myChar = False
+            myChar = empty_steps(coords) 
+
+        check_step(coords)
         gameIsOngoing = check_hits(Matrix)
         player_change()
 
