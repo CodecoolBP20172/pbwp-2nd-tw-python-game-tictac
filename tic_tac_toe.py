@@ -100,41 +100,31 @@ def empty_stepsAuto (choice):
 def check_step (choice):
     Matrix[choice[0]][choice[1]] = ch
 def compare(Ma,a, b, c, d):
-    print(ch)
-    #try:
-    if Ma[a][b] == ch and Ma[c][d] == ch:
-        print(ch)
-        print(player, end="")
-        print(". player wins!\n")
-        winner = True
-        gameIsOngoing = False
-    #except:
-        #pass
+    try:
+        if Ma[a][b] == ch and Ma[c][d] == ch:
+            print(player, end="")
+            print(". player wins!\n")
+            winner = True
+            return winner
+    except IndexError:
+        pass
+    winner = False
+    return winner
 
 def check_hits(Ma, ind):
+    tab = [[ind[0],ind[1]+1,ind[0],ind[1]-1],[ind[0],ind[1]+1,ind[0],ind[1]+2],[ind[0],ind[1]-1,ind[0],ind[1]-2],
+    [ind[0]+1,ind[1],ind[0]-1,ind[1]],[ind[0]+1,ind[1],ind[0]+2,ind[1]],[ind[0]-1,ind[1],ind[0]-2,ind[1]],
+    [ind[0]-1,ind[1]-1,ind[0]+1,ind[1]+1],[ind[0]-1,ind[1]-1,ind[0]-2,ind[1]-2],[ind[0]+1,ind[1]+1,ind[0]+2,ind[1]+2],
+    [ind[0]-1,ind[1]+1,ind[0]+1,ind[1]-1],[ind[0]-1,ind[1]+1,ind[0]-2,ind[1]+2],[ind[0]+1,ind[1]-1,ind[0]+2,ind[1]-2]]
+
     winner = False
-    gameIsOngoing = True
-    compare(Ma,ind[0],ind[1]+1,ind[0],ind[1]-1)
-    compare(Ma,ind[0],ind[1]+1,ind[0],ind[1]+2)
-    compare(Ma,ind[0],ind[1]-1,ind[0],ind[1]-2)
-
-    compare(Ma,ind[0]+1,ind[1],ind[0]-1,ind[1])
-    compare(Ma,ind[0]+1,ind[1],ind[0]+2,ind[1])
-    compare(Ma,ind[0]-1,ind[1],ind[0]-2,ind[1])
-
-    compare(Ma,ind[0],ind[1]+1,ind[0],ind[1]-1)
-    compare(Ma,ind[0],ind[1]+1,ind[0],ind[1]+2)
-    compare(Ma,ind[0],ind[1]-1,ind[0],ind[1]-2)
-    compare(Ma,ind[0],ind[1]+1,ind[0],ind[1]-1)
-    
-    compare(Ma,ind[0],ind[1]+1,ind[0],ind[1]+2)
-    compare(Ma,ind[0],ind[1]-1,ind[0],ind[1]-2)
-    
-        #winner = True
-        #gameIsOngoing = False
-    if winner == False:
-        gameIsOngoing = table_check(Matrix)
-    return gameIsOngoing
+    for row in tab:
+        if not winner:
+            winner = compare(Ma,row[0],row[1],row[2],row[3])
+    if winner:
+        return False
+    else:
+        return table_check(Matrix)
 def check_hits_comp(Matrix):
     winner = False
     gameIsOngoing = True
@@ -256,3 +246,19 @@ while answer:
 
 #TODO:
 #kezelni ctrl+C kilépést
+"""
+    winner = compare(Ma,ind[0],ind[1]+1,ind[0],ind[1]-1)
+    winner = compare(Ma,ind[0],ind[1]+1,ind[0],ind[1]+2)
+    winner = compare(Ma,ind[0],ind[1]-1,ind[0],ind[1]-2)
+
+    winner = compare(Ma,ind[0]+1,ind[1],ind[0]-1,ind[1])
+    winner = compare(Ma,ind[0]+1,ind[1],ind[0]+2,ind[1])
+    winner = compare(Ma,ind[0]-1,ind[1],ind[0]-2,ind[1])
+
+    winner = compare(Ma,ind[0]-1,ind[1]-1,ind[0]+1,ind[1]+1)
+    winner = compare(Ma,ind[0]-1,ind[1]-1,ind[0]-2,ind[1]-2)
+    winner = compare(Ma,ind[0]+1,ind[1]+1,ind[0]+2,ind[1]+2)
+
+    winner = compare(Ma,ind[0]-1,ind[1]+1,ind[0]+1,ind[1]-1)
+    winner = compare(Ma,ind[0]-1,ind[1]+1,ind[0]-2,ind[1]+2)
+    winner = compare(Ma,ind[0]+1,ind[1]-1,ind[0]+2,ind[1]-2)"""
