@@ -112,11 +112,12 @@ def compare(Ma,a, b, c, d):
     return winner
 
 def check_hits(Ma, ind):
-    tab = [[ind[0],ind[1]+1,ind[0],ind[1]-1],[ind[0],ind[1]+1,ind[0],ind[1]+2],[ind[0],ind[1]-1,ind[0],ind[1]-2],
-    [ind[0]+1,ind[1],ind[0]-1,ind[1]],[ind[0]+1,ind[1],ind[0]+2,ind[1]],[ind[0]-1,ind[1],ind[0]-2,ind[1]],
-    [ind[0]-1,ind[1]-1,ind[0]+1,ind[1]+1],[ind[0]-1,ind[1]-1,ind[0]-2,ind[1]-2],[ind[0]+1,ind[1]+1,ind[0]+2,ind[1]+2],
-    [ind[0]-1,ind[1]+1,ind[0]+1,ind[1]-1],[ind[0]-1,ind[1]+1,ind[0]-2,ind[1]+2],[ind[0]+1,ind[1]-1,ind[0]+2,ind[1]-2]]
-
+    x = ind[0]
+    y = ind[1]
+    tab = [[x,y+1,x,y-1],[x,y+1,x,y+2],[x,y-1,x,y-2],
+           [x+1,y,x-1,y],[x+1,y,x+2,y],[x-1,y,x-2,y],
+           [x-1,y-1,x+1,y+1],[x-1,y-1,x-2,y-2],[x+1,y+1,x+2,y+2],
+           [x-1,y+1,x+1,y-1],[x-1,y+1,x-2,y+2],[x+1,y-1,x+2,y-2]]
     winner = False
     for row in tab:
         if not winner:
