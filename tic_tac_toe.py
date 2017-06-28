@@ -3,14 +3,22 @@ from random import randint
 
 def del_win():
     print("\033c")
+def write_label():
+    print("   ", end = "")
+    for i in range (len(Matrix[0])):
+        print(" " + str(i+1), end = " ")
+    print('')
 
 
 def print_board (Matrix):
     del_win()
-    for i in range (0, len (Matrix[0])):
+    write_label()
+    for i in range (0, len(Matrix[0])):
+        print(" " + str(i+1), end = " ")
         for element in Matrix[i]:
             sys.stdout.write("[{}]".format(*element))
-        print("")
+        print(i+1)
+    write_label()
 
 def read_num(question):
     cycle_bool = True
@@ -20,17 +28,26 @@ def read_num(question):
         except (ValueError, UnboundLocalError):
             print("Please give numbers!")
             continue
-        cycle_bool =False
+        cycle_bool = False
     return number
 
 def read_coords():
-    coords = []
-    coords.append(read_num('Add the x coordinate: '))
-    coords.append(read_num('Add the y coordinate: '))
+    my_bool = True
+    while my_bool:
+        coords = []
+        coords.append(read_num('Add the coordinate \n x: ')-1)
+        coords.append(read_num(' y: ')-1)
+        try:
+            if not empty_steps(coords):
+                check_step(coords)
+            else:
+                continue
+        except:
+            print('Given coordinates are wrong. Try again')
+            continue
+        my_bool = False
+    print_board(Matrix)
     return coords
-    
-
-
 
 
 def player_change():
@@ -45,7 +62,6 @@ def player_change():
 
 
 def empty_steps (choice):
-    global Matrix
     if Matrix[choice[0]][choice[1]] != " ":
         print("The location you chose is not empty!!!")
         return True
@@ -83,36 +99,39 @@ def empty_stepsAuto (choice):
 
 def check_step (choice):
     Matrix[choice[0]][choice[1]] = ch
-    print_board(Matrix)
+def compare(Ma,a, b, c, d):
+    print(ch)
+    #try:
+    if Ma[a][b] == ch and Ma[c][d] == ch:
+        print(ch)
+        print(player, end="")
+        print(". player wins!\n")
+        winner = True
+        gameIsOngoing = False
+    #except:
+        #pass
 
-def check_hits(Matrix):
+def check_hits(Ma, ind):
     winner = False
     gameIsOngoing = True
-    for i in range (0, len (Matrix[0])):
-        if Matrix [i][0] == ch and Matrix [i][1] ==ch and Matrix [i][2] == ch:
-            print (player, end="")
-            print(". player wins!\n")
-            winner = True
-            gameIsOngoing = False
+    compare(Ma,ind[0],ind[1]+1,ind[0],ind[1]-1)
+    compare(Ma,ind[0],ind[1]+1,ind[0],ind[1]+2)
+    compare(Ma,ind[0],ind[1]-1,ind[0],ind[1]-2)
 
-    for i in range (0, len (Matrix[0])):
-        if Matrix [0][i] == ch and Matrix [1][i] == ch and Matrix [2][i] == ch:
-            print (player, end="")
-            print(". player wins!\n")
-            winner = True
-            gameIsOngoing = False
+    compare(Ma,ind[0]+1,ind[1],ind[0]-1,ind[1])
+    compare(Ma,ind[0]+1,ind[1],ind[0]+2,ind[1])
+    compare(Ma,ind[0]-1,ind[1],ind[0]-2,ind[1])
 
-    if Matrix [0][0] ==ch and Matrix [1][1] == ch and Matrix [2][2] == ch:
-            print (player, end="")
-            print(". player wins!\n")
-            winner = True
-            gameIsOngoing = False
-
-    if Matrix [0][2] == ch and Matrix [2][0] == ch and Matrix [1][1] == ch:
-            print (player, end="")
-            print(". player wins!\n")
-            winner = True
-            gameIsOngoing = False
+    compare(Ma,ind[0],ind[1]+1,ind[0],ind[1]-1)
+    compare(Ma,ind[0],ind[1]+1,ind[0],ind[1]+2)
+    compare(Ma,ind[0],ind[1]-1,ind[0],ind[1]-2)
+    compare(Ma,ind[0],ind[1]+1,ind[0],ind[1]-1)
+    
+    compare(Ma,ind[0],ind[1]+1,ind[0],ind[1]+2)
+    compare(Ma,ind[0],ind[1]-1,ind[0],ind[1]-2)
+    
+        #winner = True
+        #gameIsOngoing = False
     if winner == False:
         gameIsOngoing = table_check(Matrix)
     return gameIsOngoing
@@ -202,32 +221,20 @@ def game():
     global Matrix
     global ch
     global player
-    signs = {1, 2, 3, 4, 5, 6, 7, 8, 9}
     player = 1
     ch = 'X'
     row = read_num("Please add the size of the table: ")
     Matrix = [[" " for x in range(row)] for y in range(row)]
     print_board(Matrix)
     gameIsOngoing = True
-    while gameIsOngoing: #True:
-        myChar = True
-        while myChar:
-            try:
-                coords = read_coords()
-            except (ValueError, UnboundLocalError):
-                q = input("Use the numerical part of your keypad (1-9) or press q if you want to quit")
-                if q == 'q':
-                    sys.exit()
-                else:
-                    continue
-
-
-            myChar = False
-            myChar = empty_steps(coords) 
-
-        check_step(coords)
-        gameIsOngoing = check_hits(Matrix)
+    while gameIsOngoing:
+        coords = read_coords()
+        #try:
+        gameIsOngoing = check_hits(Matrix, coords)
+        #except:
+            #print("vmi")    
         player_change()
+
 
 ansYes = { 'y', 'Yes', 'Y', 'yes'}
 ansNo = { 'n', 'No', 'N', 'no'}
