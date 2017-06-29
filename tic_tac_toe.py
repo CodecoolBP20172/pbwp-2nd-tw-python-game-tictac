@@ -201,10 +201,13 @@ def main():
         ansNo = {'n', 'No', 'N', 'no'}
         ansAuto = {'a', 'A', 'auto', 'Auto'}
         del_win()
-        print("Hello User! This is a simple tic tac toe game. \n\nYou can play alone or in pair. \n\nThe first player play with the character X and the second one with O.\n")
+        print("Hello User! This is a simple tic tac toe game. \n\nYou can play alone or in pair. \n\nThe first player \
+play with the character X and the second one with O.\n")
         answer = True
         while answer:
-            cho = input("Would you like to play a round? \n    -press a or A or type auto / Auto to play against the computer \n    -press y or Y / type yes or Yes to play\n    -press n or N / type no or No to close the program\n ")
+            cho = input("Would you like to play a round? \n    -press a or A or type auto / Auto to play against \
+the computer \n    -press y or Y / type yes or Yes to play\n    -press n or N / type no or No to close \
+the program\n ")
             if cho in ansYes:
                 game()
             elif cho in ansNo:
@@ -218,4 +221,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
